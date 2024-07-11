@@ -16,6 +16,7 @@ export default function MeterSnap({ navigation }) {
   const [predictedImage, setPredictedImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState(null);
+  const [reading, setReading] = useState(null);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -73,7 +74,7 @@ export default function MeterSnap({ navigation }) {
       const resultData = await result.json();
 
       setPredictedImage(`http://192.168.0.108:3000${resultData.image_url}`);
-      console.log('resultData:', predictedImage);
+      setReading(resultData.reading);
     } catch (error) {
       console.error(error);
     } finally {
@@ -92,9 +93,31 @@ export default function MeterSnap({ navigation }) {
         </View>
       )}
       {loading && <ActivityIndicator size="large" color="#0000ff" />}
-      <View>
-        <Image source={{ uri: predictedImage }} style={styles.image} />
-      </View>
+      {predictedImage !== null ? (
+        <View>
+          <Image source={{ uri: predictedImage }} style={styles.image} />
+        </View>
+      ) : (
+        <Text style={styles.message}>No image available</Text>
+      )}
+
+      {reading !== null ? (
+        <Text style={styles.reading}>Meter Reading: {reading} kwh</Text>
+      ) : (
+        <Text style={styles.reading}>Meter reading not available </Text>
+      )}
+      {/* <Text style={styles.reading}>Meter Reading: {reading} kwh</Text> */}
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          navigation.navigate('Prediction', {
+            imagePath: predictedImage,
+            reading: reading,
+          });
+        }}
+      >
+        <Text>Result</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -120,5 +143,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     maxWidth: 200,
     minWidth: 200,
+  },
+  reading: {
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 });
