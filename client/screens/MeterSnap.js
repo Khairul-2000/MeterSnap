@@ -92,8 +92,8 @@ export default function MeterSnap({ navigation }) {
           <Button title="Upload Image" onPress={uploadImage} />
         </View>
       )}
-      {loading && <ActivityIndicator size="large" color="#0000ff" />}
-      {predictedImage !== null ? (
+      {loading && <ActivityIndicator size="large" color="#00ff00" />}
+      {/* {predictedImage !== null ? (
         <View>
           <Image source={{ uri: predictedImage }} style={styles.image} />
         </View>
@@ -105,7 +105,7 @@ export default function MeterSnap({ navigation }) {
         <Text style={styles.reading}>Meter Reading: {reading} kwh</Text>
       ) : (
         <Text style={styles.reading}>Meter reading not available </Text>
-      )}
+      )} */}
       {/* <Text style={styles.reading}>Meter Reading: {reading} kwh</Text> */}
       <TouchableOpacity
         style={styles.button}
@@ -143,9 +143,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     maxWidth: 200,
     minWidth: 200,
+    marginTop: 30,
   },
   reading: {
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
   },
 });

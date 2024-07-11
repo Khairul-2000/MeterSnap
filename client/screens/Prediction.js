@@ -6,12 +6,34 @@ export default function Prediction({ route, navigation }) {
   console.log('imagePath:', imagePath);
   return (
     <View style={styles.container}>
-      <Text style={styles.reading}>Predicted Image</Text>
-      <View>
-        <Image source={{ uri: imagePath }} style={styles.image} />
-      </View>
-      {reading !== null ? (
-        <Text style={styles.reading}>Meter Reading: {reading} kwh</Text>
+      {imagePath !== 'http://192.168.0.108:3000' ? (
+        <View>
+          <Text
+            style={{
+              fontWeight: 'bold',
+              fontSize: 20,
+              textAlign: 'center',
+            }}
+          >
+            Predicted Image
+          </Text>
+          <Image source={{ uri: imagePath }} style={styles.image} />
+        </View>
+      ) : (
+        <View>
+          <Image source={require('../assets/meter.jpg')} style={styles.image} />
+          <Text
+            style={{ textAlign: 'center', fontWeight: 'bold', color: 'red' }}
+          >
+            No Meter Recognized. Try Again with Meter Image!
+          </Text>
+        </View>
+      )}
+      {reading !== '' ? (
+        <Text style={styles.reading}>
+          Meter Reading: <Text style={styles.meter}>{reading} </Text>
+          kwh
+        </Text>
       ) : (
         <Text style={styles.reading}>Meter reading not available </Text>
       )}
@@ -27,11 +49,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   image: {
-    width: 350,
-    height: 500,
+    width: 300,
+    height: 450,
     margin: 10,
+    borderRadius: 10,
   },
   reading: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  meter: {
+    color: 'green',
+    fontFamily: 'monospace',
     fontSize: 20,
     fontWeight: 'bold',
   },
